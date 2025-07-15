@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malla Interactiva - Ingeniería Industrial</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff0f5;
+      color: #4a004d;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #b30059;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .materia {
+      border: 2px solid #e066a7;
+      background-color: #ffe0ef;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .materia:hover {
+      transform: scale(1.03);
+    }
+    .materia.aprobada {
+      background-color: #f7c6da;
+      border-color: #cc3377;
+      text-decoration: line-through;
+    }
+    .info {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #d38fb0;
+      border-radius: 10px;
+      background-color: #ffe6f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Plan de Estudios - Ingeniería Industrial (UNSa)</h1>
+  <div class="grid" id="malla"></div>
+  <div class="info" id="info">Clickeá una materia para ver sus correlativas ✨</div>  <script>
+    const materias = [
+      { num: 1, nombre: "Álgebra Lineal y Geometría Analítica", correlativas: [] },
+      { num: 2, nombre: "Análisis Matemático I", correlativas: [] },
+      { num: 3, nombre: "Sistemas de Representación", correlativas: [] },
+      { num: 4, nombre: "Física I", correlativas: [1, 2] },
+      { num: 5, nombre: "Química General", correlativas: [2] },
+      { num: 6, nombre: "Informática", correlativas: [1] },
+      { num: 7, nombre: "Análisis Matemático II", correlativas: [4] },
+      { num: 8, nombre: "Química para Ingeniería Industrial", correlativas: [1, 5] },
+      { num: 9, nombre: "Probabilidad y Estadística", correlativas: [2] },
+      { num: 10, nombre: "Estabilidad y Resistencia de Materiales", correlativas: [3, 4] },
+      { num: 11, nombre: "Física II", correlativas: [4, 7] },
+      { num: 12, nombre: "Estadística Experimental", correlativas: [9] },
+      { num: 13, nombre: "Termodinámica I", correlativas: [4, 7, 8] },
+      { num: 14, nombre: "Matemática Aplicada", correlativas: [6, 7] },
+      { num: 15, nombre: "Electrónica", correlativas: [11] },
+      { num: 16, nombre: "Termodinámica II", correlativas: [13] },
+      { num: 17, nombre: "Electrotecnia y Máquinas Eléctricas", correlativas: [15] },
+      { num: 18, nombre: "Teoría General de Sistemas", correlativas: [9, 14] },
+      { num: 19, nombre: "Microeconomía", correlativas: [12] },
+      { num: 20, nombre: "Mecanismos y Tecnología Mecánica", correlativas: [10, 17] },
+      { num: 21, nombre: "Fundamentos de las Operaciones Industriales", correlativas: [13, 14] },
+      { num: 22, nombre: "Organización Industrial I", correlativas: [18, 19] },
+      { num: 23, nombre: "Macroeconomía", correlativas: [12] },
+      { num: 24, nombre: "Organización Industrial II", correlativas: [22, 23] },
+      { num: 25, nombre: "Costos Industriales", correlativas: [21, 22] },
+      { num: 26, nombre: "Operaciones Industriales", correlativas: [16, 21] },
+      { num: 27, nombre: "Construcciones Industriales", correlativas: [20] },
+      { num: 28, nombre: "Investigación Operativa", correlativas: [12, 22] },
+      { num: 29, nombre: "Formulación y Evaluación de Proyectos", correlativas: [24, 25, 26, 27, 28] },
+      { num: 30, nombre: "Ingeniería de Planta", correlativas: [20, 26] },
+      { num: 31, nombre: "Materiales Industriales", correlativas: [20, 21] },
+      { num: 32, nombre: "Instrumentación y Control Automático", correlativas: [15, 17, 26] },
+      { num: 33, nombre: "Gestión Ambiental", correlativas: [24, 30] },
+      { num: 34, nombre: "Industrias", correlativas: [26] },
+      { num: 35, nombre: "Derecho para Ingenieros", correlativas: [24] },
+      { num: 36, nombre: "Gestión Estratégica", correlativas: [24, 28] },
+      { num: 37, nombre: "Gestión de la Calidad", correlativas: [29, 30, 34] },
+      { num: 38, nombre: "Relaciones Humanas", correlativas: [29] },
+      { num: 39, nombre: "Higiene y Seguridad Industrial", correlativas: [33] },
+    ];
+
+    const mallaDiv = document.getElementById("malla");
+    const infoDiv = document.getElementById("info");
+
+    materias.forEach(mat => {
+      const div = document.createElement("div");
+      div.className = "materia";
+      div.textContent = `${mat.num}. ${mat.nombre}`;
+      div.addEventListener("click", () => {
+        div.classList.toggle("aprobada");
+        const corrs = mat.correlativas.map(n => ` ${n}. ${materias.find(m => m.num === n)?.nombre}`).join("\n");
+        infoDiv.innerHTML = `<strong>${mat.nombre}</strong><br>Correlativas: ${corrs || "Ninguna"}`;
+      });
+      mallaDiv.appendChild(div);
+    });
+  </script></body>
+</html>
